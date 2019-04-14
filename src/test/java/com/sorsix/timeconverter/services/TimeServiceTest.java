@@ -55,6 +55,14 @@ public class TimeServiceTest {
     }
 
     @Test
+    public void convertTimeWrongDateFormat3() {
+        Time timeExpected = new Time(0, "ERROR; Invalid input");
+        Time timeActual = ts.convertTime("2015-02-30");
+        assertEquals(timeExpected.getEpoch(), timeActual.getEpoch());
+        assertEquals(timeExpected.getSkopje(), timeActual.getSkopje());
+    }
+
+    @Test
     public void convertTimeRightTimeAndDate() {
         Time timeExpected = new Time(1430604000, "недела, 3, мај 2015 00:00:00 CEST");
         Time timeActual = ts.convertTime("2015-05-03T00:00:00");
@@ -82,6 +90,14 @@ public class TimeServiceTest {
     public void convertTimeWrongDateAndTimeFormatSecond() {
         Time timeExpected = new Time(0, "ERROR; Invalid input");
         Time timeActual = ts.convertTime("2015-05-03T00:00:60");
+        assertEquals(timeExpected.getEpoch(), timeActual.getEpoch());
+        assertEquals(timeExpected.getSkopje(), timeActual.getSkopje());
+    }
+
+    @Test
+    public void convertTimeWrongDateAndTimeFormat1() {
+        Time timeExpected = new Time(0, "ERROR; Invalid input");
+        Time timeActual = ts.convertTime("2015-02-30T00:00:00");
         assertEquals(timeExpected.getEpoch(), timeActual.getEpoch());
         assertEquals(timeExpected.getSkopje(), timeActual.getSkopje());
     }

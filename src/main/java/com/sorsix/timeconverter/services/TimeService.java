@@ -7,6 +7,7 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.time.format.FormatStyle;
 
 @Service
@@ -27,17 +28,29 @@ public class TimeService {
         }
 
         if (dateOrEpoch == 1) { //it's a date
-            ZonedDateTime zonedDateTime = ZonedDateTime.parse(date + "T00:00:00+02:00[Europe/Skopje]");
-            dateResult = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL).format(zonedDateTime);
-            epochResult = zonedDateTime.toEpochSecond();
-            return new Time(epochResult, dateResult);
+            try {
+                ZonedDateTime zonedDateTime = ZonedDateTime.parse(date + "T00:00:00+02:00[Europe/Skopje]");
+                dateResult = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL).format(zonedDateTime);
+                epochResult = zonedDateTime.toEpochSecond();
+                return new Time(epochResult, dateResult);
+            } catch (DateTimeParseException e) {
+                e.printStackTrace();
+                return new Time(0, "ERROR; Invalid input");
+            }
+
         }
 
         if (dateOrEpoch == 2) { //it's a date and time
-            ZonedDateTime zonedDateTime = ZonedDateTime.parse(date + "+02:00[Europe/Skopje]");
-            dateResult = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL).format(zonedDateTime);
-            epochResult = zonedDateTime.toEpochSecond();
-            return new Time(epochResult, dateResult);
+            try {
+                ZonedDateTime zonedDateTime = ZonedDateTime.parse(date + "+02:00[Europe/Skopje]");
+                dateResult = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL).format(zonedDateTime);
+                epochResult = zonedDateTime.toEpochSecond();
+                return new Time(epochResult, dateResult);
+            } catch (DateTimeParseException e) {
+                e.printStackTrace();
+                return new Time(0, "ERROR; Invalid input");
+            }
+
         }
 
 
