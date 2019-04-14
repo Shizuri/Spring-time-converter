@@ -16,7 +16,7 @@ public class TimeController {
     private TimeService timeService;
 
     @GetMapping("/{date}")
-    public Time getDate(@PathVariable String date){
+    public Time getDate(@PathVariable String date) {
         return timeService.convertTime(date);
     }
 }

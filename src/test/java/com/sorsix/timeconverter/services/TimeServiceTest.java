@@ -11,16 +11,78 @@ public class TimeServiceTest {
 
     // ts.convertTime() tests start from here
     @Test
-    public void convertTimeTestEpoch(){
-        Time timeExpected = new Time(1450998000,"1");
+    public void convertTimeTestEpoch() {
+        Time timeExpected = new Time(1450998000, "1");
         Time timeActual = ts.convertTime("2015-12-25");
         assertEquals(timeExpected.getEpoch(), timeActual.getEpoch());
     }
 
     @Test
-    public void convertTimeTestDate(){
-        Time timeExpected = new Time(1450998000,"петок, 25, декември 2015 00:00:00 CET");
+    public void convertTimeTestDate() {
+        Time timeExpected = new Time(1, "петок, 25, декември 2015 00:00:00 CET");
         Time timeActual = ts.convertTime("2015-12-25");
+        assertEquals(timeExpected.getSkopje(), timeActual.getSkopje());
+    }
+
+    @Test
+    public void convertTimeWrongInput1() {
+        Time timeExpected = new Time(0, "ERROR; Invalid input");
+        Time timeActual = ts.convertTime("2015-12-");
+        assertEquals(timeExpected.getSkopje(), timeActual.getSkopje());
+    }
+
+    @Test
+    public void convertTimeWrongInput2() {
+        Time timeExpected = new Time(0, "ERROR; Invalid input");
+        Time timeActual = ts.convertTime("2015-12-00000000000000000");
+        assertEquals(timeExpected.getEpoch(), timeActual.getEpoch());
+    }
+
+    @Test
+    public void convertTimeWrongDateFormat1() {
+        Time timeExpected = new Time(0, "ERROR; Invalid input");
+        Time timeActual = ts.convertTime("2015-01-33");
+        assertEquals(timeExpected.getEpoch(), timeActual.getEpoch()); //is this a good or bad practice
+        assertEquals(timeExpected.getSkopje(), timeActual.getSkopje()); //to have 2 assertions in one test?
+    }
+
+    @Test
+    public void convertTimeWrongDateFormat2() {
+        Time timeExpected = new Time(0, "ERROR; Invalid input");
+        Time timeActual = ts.convertTime("2015-13-01");
+        assertEquals(timeExpected.getEpoch(), timeActual.getEpoch());
+        assertEquals(timeExpected.getSkopje(), timeActual.getSkopje());
+    }
+
+    @Test
+    public void convertTimeRightTimeAndDate() {
+        Time timeExpected = new Time(1430604000, "недела, 3, мај 2015 00:00:00 CEST");
+        Time timeActual = ts.convertTime("2015-05-03T00:00:00");
+        assertEquals(timeExpected.getEpoch(), timeActual.getEpoch());
+        assertEquals(timeExpected.getSkopje(), timeActual.getSkopje());
+    }
+
+    @Test
+    public void convertTimeWrongDateAndTimeFormatHour() {
+        Time timeExpected = new Time(0, "ERROR; Invalid input");
+        Time timeActual = ts.convertTime("2015-05-03T24:00:00");
+        assertEquals(timeExpected.getEpoch(), timeActual.getEpoch());
+        assertEquals(timeExpected.getSkopje(), timeActual.getSkopje());
+    }
+
+    @Test
+    public void convertTimeWrongDateAndTimeFormatMinute() {
+        Time timeExpected = new Time(0, "ERROR; Invalid input");
+        Time timeActual = ts.convertTime("2015-05-03T00:60:00");
+        assertEquals(timeExpected.getEpoch(), timeActual.getEpoch());
+        assertEquals(timeExpected.getSkopje(), timeActual.getSkopje());
+    }
+
+    @Test
+    public void convertTimeWrongDateAndTimeFormatSecond() {
+        Time timeExpected = new Time(0, "ERROR; Invalid input");
+        Time timeActual = ts.convertTime("2015-05-03T00:00:60");
+        assertEquals(timeExpected.getEpoch(), timeActual.getEpoch());
         assertEquals(timeExpected.getSkopje(), timeActual.getSkopje());
     }
 
@@ -39,7 +101,7 @@ public class TimeServiceTest {
 
     @Test
     public void wrongDay() {
-        int result = ts.dateOrEpoch("2015-99-99");
+        int result = ts.dateOrEpoch("2015-01-99");
         assertEquals(-1, result);
     }
 
@@ -59,18 +121,18 @@ public class TimeServiceTest {
     @Test
     public void fixEpochShortNumber() {
         long result = ts.fixEpoch("10");
-        assertEquals(10L,result);
+        assertEquals(10L, result);
     }
 
     @Test
     public void fixEpochRegularNumber() {
         long result = ts.fixEpoch("1234567890");
-        assertEquals(1234567890L,result);
+        assertEquals(1234567890L, result);
     }
 
     @Test
     public void fixEpochLongNumber() {
         long result = ts.fixEpoch("1234567890123456789");
-        assertEquals(1234567890L,result);
+        assertEquals(1234567890L, result);
     }
 }
