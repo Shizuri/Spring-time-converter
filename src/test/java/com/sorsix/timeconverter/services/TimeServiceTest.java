@@ -56,7 +56,7 @@ public class TimeServiceTest {
 
     @Test
     public void convertTimeWrongDateFormat3() {
-        Time timeExpected = new Time(0, "ERROR; Invalid input");
+        Time timeExpected = new Time(0, "Text '2015-02-30T00:00:00+02:00[Europe/Skopje]' could not be parsed: Invalid date 'FEBRUARY 30'");
         Time timeActual = ts.convertTime("2015-02-30");
         assertEquals(timeExpected.getEpoch(), timeActual.getEpoch());
         assertEquals(timeExpected.getSkopje(), timeActual.getSkopje());

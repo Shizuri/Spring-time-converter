@@ -34,11 +34,10 @@ public class TimeService {
                 epochResult = zonedDateTime.toEpochSecond();
                 return new Time(epochResult, dateResult);
             } catch (DateTimeParseException e) {
-                e.printStackTrace();
-                return new Time(0, "ERROR; Invalid input");
+                return new Time(0, e.getMessage());
             }
-
         }
+
 
         if (dateOrEpoch == 2) { //it's a date and time
             try {
@@ -47,12 +46,9 @@ public class TimeService {
                 epochResult = zonedDateTime.toEpochSecond();
                 return new Time(epochResult, dateResult);
             } catch (DateTimeParseException e) {
-                e.printStackTrace();
                 return new Time(0, "ERROR; Invalid input");
             }
-
         }
-
 
         return new Time(0, "ERROR; Invalid input");
     }
