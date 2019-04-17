@@ -1,27 +1,27 @@
 package com.sorsix.timeconverter.models;
 
-public class Time {
-    private long epoch;
-    private String skopje;
+public final class Time {
+    private long unixEpoch;
+    private String skopjeDate;
 
-    public Time(long epoch, String skopje) {
-        this.epoch = epoch;
-        this.skopje = skopje;
+    public Time(long unixEpoch, String skopjeDate) {
+        this.unixEpoch = unixEpoch;
+        this.skopjeDate = skopjeDate;
     }
 
-    public long getEpoch() {
-        return epoch;
+    public long getUnixEpoch() {
+        return unixEpoch;
     }
 
-    public void setEpoch(long epoch) {
-        this.epoch = epoch;
+    public void setUnixEpoch(long unixEpoch) {
+        this.unixEpoch = unixEpoch;
     }
 
-    public String getSkopje() {
-        return skopje;
+    public String getSkopjeDate() {
+        return skopjeDate;
     }
 
-    public void setSkopje(String skopje) {
-        this.skopje = skopje;
+    public void setSkopjeDate(String skopjeDate) {
+        this.skopjeDate = skopjeDate;
     }
 }

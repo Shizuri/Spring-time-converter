@@ -1,8 +1,7 @@
 package com.sorsix.timeconverter.controllers;
 
-import com.sorsix.timeconverter.models.Time;
 import com.sorsix.timeconverter.services.TimeService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,15 +12,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/timestamp/")
 public class TimeController {
 
-    @Autowired
-    private TimeService timeService;
+    private final TimeService timeService;
 
-    @GetMapping(value = "/{date}", produces = "application/json")
+    public TimeController(TimeService timeService) {
+        this.timeService = timeService;
+    }
+
+    @GetMapping(value = "/{date}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getDate(@PathVariable String date) {
-        Time res = timeService.convertTime(date);
-        if (res.getEpoch() == 0) {
-            return ResponseEntity.badRequest().body(new Time(0, res.getSkopje()));
+        try {
+            return ResponseEntity.ok().body(timeService.convertTime(date));
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body("{\"Error\":\"" + e.getMessage() + "\"}");
         }
-        return ResponseEntity.ok(timeService.convertTime(date));
     }
 }
