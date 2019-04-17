@@ -16,9 +16,8 @@ public class TimeService {
 
         String dateResult = "";
         long epochResult = 0L;
-        boolean isEpoch = date.matches("\\d{10,19}");
 
-        if (isEpoch) {
+        if (date.matches("\\d{10,19}")) {  //is epoch
             Instant instant = Instant.ofEpochSecond(fixEpoch(date));
             ZonedDateTime zonedDateTimeEpoch = ZonedDateTime.ofInstant(instant, ZoneId.of("Europe/Skopje"));
             dateResult = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL).format(zonedDateTimeEpoch);
